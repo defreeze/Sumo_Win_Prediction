@@ -5,27 +5,37 @@ date: "2/25/2021"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-#with(X2019, tapply(rikishi1_win, rikishi1_shikona, FUN = function(x) length(unique(x))))
-#with(X2019, tapply(rikishi2_win, rikishi2_shikona, FUN = function(x) length(unique(x))))
-#aggregate(X2019$basho, by = X2019[c('rikishi1_win','rikishi1_shikona')], length)
-
+#Packages
 install.packages("tibble")
 install.packages("dplyr")
+install.packages("plyr")
+library(plyr)
 
 library(tibble)
 library(dplyr)
+library(readr)
+
+X2019 <- read_csv("~/Desktop/Sumo_results/2019.csv")
+
 
 ## settings
 basho_date <- 2019.01
+all_2019bashos <- unique(X2019[c("basho")])
+all_2019bashos
 
+#code
+#with(X2019, tapply(rikishi1_win, rikishi1_shikona, FUN = function(x) length(unique(x))))
+#with(X2019, tapply(rikishi2_win, rikishi2_shikona, FUN = function(x) length(unique(x))))
+#aggregate(X2019$basho, by = X2019[c('rikishi1_win','rikishi1_shikona')], length)
 
 Y2019 <- as_tibble(X2019)
 Y2019 <- Y2019 %>% filter(
   basho == basho_date
   )
+
+plot(plot <- Y2019 %>% filter(day == 1), unique(plot)[c(rekishi1_shikona)])
+plot(plot, rikishi1_shikona, plot$rikishi1_win)
+
+counts <- ddply(Y2019, .(Y2019$rikishi1_win, Y2019$rikishi1_shikona), nrow)
+names(counts) <- c("wins", "rikishi", "Freq")
 
