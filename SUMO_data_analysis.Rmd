@@ -8,9 +8,10 @@ output: html_document
 #Packages
 install.packages("tibble")
 install.packages("dplyr")
-install.packages("plyr")
-library(plyr)
+install.packages("data.table")
+#library(plyr)
 
+library(data.table)
 library(tibble)
 library(dplyr)
 library(readr)
@@ -20,7 +21,7 @@ X2019 <- read_csv("~/Desktop/Sumo_results/2019.csv")
 
 ## settings
 basho_date <- 2019.01
-all_2019bashos <- unique(X2019[c("basho")])
+all_2019bashos <- data.frame(unique(X2019[c("basho")]))
 all_2019bashos
 
 #code
@@ -32,10 +33,44 @@ Y2019 <- as_tibble(X2019)
 Y2019 <- Y2019 %>% filter(
   basho == basho_date
   )
+Y2019 <- as.data.frame(Y2019)
+all_rikishi <- data.frame(unique(Y2019$rikishi1_shikona))
+all_rikishi[, c("Wins")] <- 0
+
+#fix this for loop
+for(i in 1:nrow(all_rikishi)){
+  for (j in 1:nrow(Y2019)){
+    if(all_rikishi[i,1] == noquote(Y2019[j,5])){
+      all_rikishi[i,2] = all_rikishi[i,2] + Y2019[8, 7]
+    }
+  }  
+  all_rikishi
+}
+
+
+
+
+
+
+
+
 
 plot(plot <- Y2019 %>% filter(day == 1), unique(plot)[c(rekishi1_shikona)])
 plot(plot, rikishi1_shikona, plot$rikishi1_win)
 
-counts <- ddply(Y2019, .(Y2019$rikishi1_win, Y2019$rikishi1_shikona), nrow)
+
+counts <- as.data.table(Y2019)[, counting := length(rikishi1_win), by = rikishi1_shikona][]
+counts <- as.data.table(Y2019)[, counts := length(rikishi2_win), by = rikishi2_shikona][]
 names(counts) <- c("wins", "rikishi", "Freq")
+
+data.frame(combined= union(counts$counting, counts$rikishi1_shikona))
+unique(c(counts$rikishi1_shikona, counts$counting))
+
+new <- counts[,14] + count2[,15]
+Y2019[,7]
+
+
+
+all_rikishi[1,1]
+X2019[1,5]
 
