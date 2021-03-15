@@ -20,7 +20,7 @@ X2019 <- read_csv("~/Desktop/Sumo_results/2019.csv")
 
 
 ## settings
-basho_date <- 2019.01
+basho_date <- 2019.03
 all_2019bashos <- data.frame(unique(X2019[c("basho")]))
 all_2019bashos
 
@@ -57,8 +57,12 @@ for (i in 1:nrow(all_rikishi)){
     }
   }
 }
+tournament2019 <- all_rikishi[,2]
 par(mfrow=c(1,2))
-hist(all_rikishi[,2], main="Histogram of 2019.01 wins", ylab="win frequency", xlab="total wins")
+hist(tournament2019,col=rgb(0.8,0.5,0.5,0.3),xlim=c(0,15), breaks=15, ylim=c(0,15), main="Histogram of 2019.01 wins", ylab="win frequency", xlab="total wins")
+hist(all_rikishi[,2],col=rgb(0.1,0.5,0.5,0.3),xlim=c(0,15), breaks=15, ylim=c(0,15), add=T)
+box()
+
 boxplot(all_rikishi[,2], main="boxplot of 2019.01 wins", ylab="wins")
 par(mfrow=c(1,1))
 
