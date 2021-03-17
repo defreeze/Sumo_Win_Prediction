@@ -9,18 +9,20 @@ output: html_document
 install.packages("tibble")
 install.packages("dplyr")
 install.packages("data.table")
+install.packages("ggplot2")
 #library(plyr)
 
 library(data.table)
 library(tibble)
 library(dplyr)
 library(readr)
+library(ggplot2)
 
 X2019 <- read_csv("~/Desktop/Sumo_results/2019.csv")
 
 
 ## settings
-basho_date <- 2019.03
+basho_date <- 2019.01
 all_2019bashos <- data.frame(unique(X2019[c("basho")]))
 all_2019bashos
 
@@ -35,7 +37,32 @@ Y2019 <- Y2019 %>% filter(
   )
 Y2019 <- as.data.frame(Y2019)
 all_rikishi <- data.frame(unique(Y2019$rikishi1_shikona))
-all_rikishi[, c("Wins")] <- 0
+all_rikishi[, c("win")] <- 0
+
+all_rikishi_tournament <- data.frame(matrix(ncol = nrow(all_rikishi) + 1, nrow = 15))
+colnames(all_rikishi_tournament) <-c("Days", unique(Y2019$rikishi1_shikona))
+all_rikishi_tournament$Days <- 1:15
+
+#create matrix with all wins and loses ### work in progress###
+for(i in 1:nrow(all_rikishi)){
+  day_count <- 1
+  for (j in 1:nrow(Y2019)){
+    if(all_rikishi[i,1] == noquote(Y2019[j,5])){
+      all_rikishi_tournament[day_count, i+1] <- Y2019[j, 7]
+      day_count <- day_count + 1
+    }  
+  }
+}
+sum(all_rikishi_tournament$Ikioi)
+#add daily wins 
+for(i in 2:nrow(all_rikishi_tournament)){
+  for(j in 3:ncol(all_rikishi_tournament)){
+    all_rikishi_tournament[i,j] <- all_rikishi_tournament[i,j] + all_rikishi_tournament[i,j-1]
+  }
+}
+plot(as.numeric(all_rikishi_tournament[5,2:16]), c(1:15))
+
+colnames(all_rikishi_tournament) <- NULL
 
 #creates a list of all rikishi with their wins
 for(i in 1:nrow(all_rikishi)){
@@ -57,6 +84,7 @@ for (i in 1:nrow(all_rikishi)){
     }
   }
 }
+
 tournament2019 <- all_rikishi[,2]
 par(mfrow=c(1,2))
 hist(tournament2019,col=rgb(0.8,0.5,0.5,0.3),xlim=c(0,15), breaks=15, ylim=c(0,15), main="Histogram of 2019.01 wins", ylab="win frequency", xlab="total wins")
@@ -66,6 +94,30 @@ box()
 boxplot(all_rikishi[,2], main="boxplot of 2019.01 wins", ylab="wins")
 par(mfrow=c(1,1))
 
+
+
+
+#### testing with ggplot2 ####
+ggplot(all_rikishi, aes(y = all_rikishi[,2])) + 
+    theme_get() + 
+    geom_bar(alpha = 0.5, fill = "blue") + 
+    xlim(0,15) + ylim(0,15) +
+    labs(y = "win frequency",
+    title = "Histogram of 2019.01 wins")
+
+
+
+
+linmod <- lm(day ~ rikishi1_win, data=Y2019)
+
+ 
+
+ggplot(Y2019, aes(x = rikishi1_win)) + 
+    theme_bw() + 
+    facet_wrap(~ rikishi1_shikona) +
+    geom_histogram(binwidth = 5) + 
+    labs(y = "counting",
+    title = "win and loses of tournament 2019.01" )
 
 ######################################## after this unfinished ####################################################
 
