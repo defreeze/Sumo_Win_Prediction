@@ -114,6 +114,14 @@ return(win_data)
 }
 label_wins(all_rikishi)
 
+##### creating table with x and y axis being names of rekishi
+win_rates_rikishi <- all_rikishi[,1]
+ddf <- c()
+dff <- cbind(ddf, setNames( lapply(win_rates_rikishi, function(x) x= 0), win_rates_rikishi) )
+dff <- cbind(dff, setNames( lapply(win_rates_rikishi, function(x) x= 0), win_rates_rikishi) )
+
+all_the_wins <- matrix(nrow(all_rikishi), nrow(all_rikishi))
+
 #### testing with ggplot2 ####
 ggplot(all_rikishi, aes(y = all_rikishi[,2])) + 
     theme_get() + 

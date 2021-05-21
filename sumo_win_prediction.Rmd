@@ -11,12 +11,17 @@ prediction <- 0.0
 count <- 0
 for (i in 1:nrow(data)){
   if (data[i, 5] == name1 && data[i,11] == name2){
-    count <-- count + 1
+    count <- count + 1
     if (prediction == 0 && data[i,7] == 0){
-    }else{prediction = (prediction + data[i,7]) / count}
+    }else{prediction = (prediction + data[i,7]) / count
+    }
   }
 }
 return(prediction)
 }
 
-basic_prediction("Gagamaru", "Kiribayama", Y2019)
+basic_prediction("Gagamaru", "Kiribayama", X2019)
+
+
+
+
