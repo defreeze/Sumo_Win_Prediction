@@ -4,7 +4,7 @@ author: "Alex de Vries"
 date: "2/25/2021"
 output: html_document
 ---
-
+# to do: visualize data
 #Packages
 install.packages("tibble")
 install.packages("dplyr")
@@ -95,7 +95,7 @@ boxplot(all_rikishi[,2], main="boxplot of 2019.01 wins", ylab="wins")
 par(mfrow=c(1,1))
 
 #### labeling wins (all_rikishi)
-#### this code defines a function which adds a column to a table with labels based on valuess
+#### this code defines a function which adds a column to a table with labels based on values
 label_wins <- function(input_data){
 win_data <- input_data
 win_data[, c("label")] <- "bad"
