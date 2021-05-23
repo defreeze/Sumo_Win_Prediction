@@ -18,10 +18,31 @@ for (i in 1:nrow(data)){
   }
 }
 return(prediction)
-}
+} 
+# is this function correct?
 
 basic_prediction("Gagamaru", "Kiribayama", X2019)
 
 
+#### labeling wins (all_rikishi)
+#### this code defines a function which adds a column to a table with labels based on values
+label_wins <- function(input_data){
+win_data <- input_data
+win_data[, c("label")] <- "bad"
+for (i in 1:nrow(win_data)){
+  if (win_data[i,2] < 8){
+  win_data[i,3] <- "Bad"
+  }
+  else if(win_data[i,2] < 10){
+  win_data[i,3] <- 'good'
+  }
+  else{
+  win_data[i,3] <- 'Awesome'
+  }
+}
+return(win_data)
+}
+
+label_wins(all_rikishi)
 
 
