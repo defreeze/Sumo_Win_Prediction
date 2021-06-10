@@ -1,7 +1,7 @@
 ---
 title: "SUMO_data_analysis"
 author: "Alex de Vries"
-date: "2/25/2021"
+date: "june/10/2021"
 output: html_document
 ---
 # to do: visualize data
@@ -84,36 +84,6 @@ for (i in 1:nrow(all_rikishi)){
     }
   }
 }
-
-tournament2019 <- all_rikishi[,2]
-par(mfrow=c(1,2))
-hist(tournament2019,col=rgb(0.8,0.5,0.5,0.3),xlim=c(0,15), breaks=15, ylim=c(0,15), main="Histogram of 2019.01 wins", ylab="win frequency", xlab="total wins")
-hist(all_rikishi[,2],col=rgb(0.1,0.5,0.5,0.3),xlim=c(0,15), breaks=15, ylim=c(0,15), add=T)
-box()
-
-boxplot(all_rikishi[,2], main="boxplot of 2019.01 wins", ylab="wins")
-par(mfrow=c(1,1))
-
-#### labeling wins (all_rikishi)
-#### this code defines a function which adds a column to a table with labels based on values
-label_wins <- function(input_data){
-win_data <- input_data
-win_data[, c("label")] <- "bad"
-for (i in 1:nrow(win_data)){
-  if (win_data[i,2] < 8){
-  win_data[i,3] <- "Bad"
-  }
-  else if(win_data[i,2] < 10){
-  win_data[i,3] <- 'good'
-  }
-  else{
-  win_data[i,3] <- 'Awesome'
-  }
-}
-return(win_data)
-}
-label_wins(all_rikishi)
-
 ##### creating table with x and y axis being names of rekishi
 win_rates_rikishi <- all_rikishi[,1]
 ddf <- c()
@@ -137,6 +107,17 @@ ggplot(Y2019, aes(x = rikishi1_win)) +
     geom_histogram(binwidth = 5) + 
     labs(y = "counting",
     title = "win and loses of tournament 2019.01" )
+
+tournament2019 <- all_rikishi[,2]
+par(mfrow=c(1,2))
+hist(tournament2019,col=rgb(0.8,0.5,0.5,0.3),xlim=c(0,15), breaks=15, ylim=c(0,15), main="Histogram of 2019.01 wins", ylab="win frequency", xlab="total wins")
+hist(all_rikishi[,2],col=rgb(0.1,0.5,0.5,0.3),xlim=c(0,15), breaks=15, ylim=c(0,15), add=T)
+box()
+
+boxplot(all_rikishi[,2], main="boxplot of 2019.01 wins", ylab="wins")
+par(mfrow=c(1,1))
+
+
 
 Note: 
 ######################################## after this unfinished ####################################################

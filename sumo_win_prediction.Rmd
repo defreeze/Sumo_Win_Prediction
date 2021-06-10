@@ -1,7 +1,7 @@
 ---
 title: "sumo_win_prediction"
 author: "Alex de Vries"
-date: "5/21/2021"
+date: "june/10/2021"
 output: html_document
 ---
 
@@ -20,8 +20,8 @@ for (i in 1:nrow(data)){
 return(prediction)
 } 
 # is this function correct?
-
 basic_prediction("Gagamaru", "Kiribayama", X2019)
+basic_prediction("Kiribayama", "Gagamaru", X2019)
 
 
 #### labeling wins (all_rikishi)
